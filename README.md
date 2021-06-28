@@ -89,7 +89,7 @@ python preprocess_decision_base.py
 python preprocess_span.py
 ```
 
-All the preprocessed data can be found in the directory `./data`
+All the preprocessed data can be found in the directory `./data`. You can also download it **[here](https://drive.google.com/drive/folders/1QepEf4Uu3GHCsF1L7TuM5uSADlcex-7v?usp=sharing)**
 
 <h4>3.2 Decision Making and Question Generation</h4>
 
