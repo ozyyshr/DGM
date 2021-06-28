@@ -40,7 +40,6 @@ def mytokenizer(inS,all_dict):
     re_unk_list = []
     ori_list = []
 
-    # Yifan: fix bug in difference of length
     if len(toked) != len(or_toked):
         toked = or_toked
 
@@ -77,7 +76,7 @@ def get_mapping(X,Y,D):
 
 def main_input_output(inputstring):
 
-    all_voc = r'segedu/all_vocabulary.pickle'
+    all_voc = r'all_vocabulary.pickle'
     voca = pickle.load(open(all_voc, 'rb'))
     voca_dict = voca.word2index
 
@@ -88,7 +87,7 @@ def main_input_output(inputstring):
     mymodel = PointerNetworks(voca_size =2, voc_embeddings=np.ndarray(shape=(2,300), dtype=float),word_dim=300, hidden_dim=10,is_bi_encoder_rnn=True,rnn_type='GRU',rnn_layers=3,
                  dropout_prob=0.5,use_cuda=False,finedtuning=True,isbanor=True)
 
-    mymodel = torch.load(r'segedu/trained_model.torchsave', map_location=lambda storage, loc: storage)
+    mymodel = torch.load(r'trained_model.torchsave', map_location=lambda storage, loc: storage)
     mymodel.use_cuda = False
 
     mymodel.eval()
@@ -115,17 +114,25 @@ if __name__ == '__main__':
     import csv
     from tqdm import tqdm
 
-    with open(os.path.join('dev_snippet_parsed.json')) as f:
-        tasks = json.load(f)
-    for id, task in tqdm(tasks.items()):
-        if task['is_bullet']:
-            tasks[id]['has_edu'] = False
-        else:
-            tasks[id]['has_edu'] = True
-            tasks[id]['edus'] = []
-            for rule_sentence in task['clauses']:
-                rule_edus = main_input_output(rule_sentence)
-                tasks[id]['edus'].append(rule_edus)
+    sharc_path = '../data'
+    for split in ['train', 'dev']:
+        with open(os.path.join(sharc_path, '{}_snippet_parsed.json'.format(split))) as f:
+            tasks = json.load(f)
+        for id, task in tqdm(tasks.items()):
+            if task['is_bullet']:
+                tasks[id]['has_edu'] = False
+            else:
+                tasks[id]['has_edu'] = True
+                tasks[id]['edus'] = []
+                for rule_sentence in task['clauses']:
+                    rule_edus = main_input_output(rule_sentence)
+                    tasks[id]['edus'].append(rule_edus)
 
-    with open(os.path.join('dev_snippet_parsed.json'), 'wt') as f:
-        json.dump(tasks, f, indent=2)
+        with open(os.path.join(sharc_path, '{}_snippet_parsed.json'.format(split)), 'wt') as f:
+            json.dump(tasks, f, indent=2)
+
+    # sent='Sheraton and Pan Am said they are assured under the Soviet joint-venture law that they can repatriate profits from their hotel venture.'
+    #
+    # output_seg = main_input_output(sent)
+    # for ss in output_seg:
+    #     print(ss)
