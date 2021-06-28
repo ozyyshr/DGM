@@ -49,13 +49,14 @@ python sharc_discourse_segmentation.py
 ```
 
 ##### Discourse relations tagging
+We need to train a discourse relation tagging model according to **[here](https://github.com/shizhouxing/DialogueDiscourseParsing)**. 
+Firstly, download Glove for pretrained word vector and put it in `DialogueDiscourseParsing/glove/glove.6B.100d.txt`.
+Secondly, preprocess data with 
 
 ```bash
 cd DialogueDiscourseParsing
 python main_.py
 ```
-
-Note that we didn't put the pre-trained model in the code package due to limit size. 
 
 ##### Preprocessing for Decision Making
 
