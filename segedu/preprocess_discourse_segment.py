@@ -1,9 +1,11 @@
 import os
 import json
 import csv
-import argparse
 import re
 import nltk.data
+
+sharc_path = '../data'
+
 
 def parsing_snippet(snippet):
     title_matched = re.match(r'#.{2,}\n\n', snippet)
@@ -38,22 +40,25 @@ def parsing_snippet(snippet):
     return (title, clauses, is_bullet)
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--test_file", default=None, type=str, required=False, help="The input data dir, with json format")
-args = parser.parse_args()
-
-with open(os.path.join(args.test_file)) as f:
-    data_raw = json.load(f)
-tasks = {}
-for ex in data_raw:
-    if ex['tree_id'] not in tasks:
-        task = tasks[ex['tree_id']] = {'snippet': ex['snippet']}
-for id, v in tasks.items():
-    title, clauses, is_bullet = parsing_snippet(v['snippet'])
-    tasks[id]['title'] = title
-    tasks[id]['clauses'] = clauses
-    tasks[id]['is_bullet'] = is_bullet
-with open(os.path.join('dev_snippet_parsed.json'), 'wt') as f:
-    json.dump(tasks, f, indent=2)
+for split in ['dev', 'train']:
+    with open(os.path.join(sharc_path, 'sharc_raw', 'json', 'sharc_{}.json'.format(split))) as f:
+        data_raw = json.load(f)
+    tasks = {}
+    for ex in data_raw:
+        for h in ex['evidence']:
+            if 'followup_question' in h:
+                h['follow_up_question'] = h['followup_question']
+                h['follow_up_answer'] = h['followup_answer']
+                del h['followup_question']
+                del h['followup_answer']
+        if ex['tree_id'] not in tasks:
+            task = tasks[ex['tree_id']] = {'snippet': ex['snippet']}
+    for id, v in tasks.items():
+        title, clauses, is_bullet = parsing_snippet(v['snippet'])
+        tasks[id]['title'] = title
+        tasks[id]['clauses'] = clauses
+        tasks[id]['is_bullet'] = is_bullet
+    with open(os.path.join(sharc_path, '{}_snippet_parsed.json'.format(split)), 'wt') as f:
+        json.dump(tasks, f, indent=2)
 
 
