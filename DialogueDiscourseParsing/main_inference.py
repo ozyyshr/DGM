@@ -88,7 +88,7 @@ with sess.as_default():
 
         mapping.append({'edus': batch[0]['edus'], 'id': batch[0]['id'], 'relations':[{'x': item[0], 'y': item[1], 'type': item[2]} for item in idx]})
     
-    with open('dev_for_train_.json', 'wt') as f:
+    with open(out_file, 'wt') as f:     ## TODO: change out_file
         json.dump(mapping, f, indent=2)
     summary_sum = get_summary_sum(s, len(test_batches))
 
