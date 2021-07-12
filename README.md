@@ -69,6 +69,7 @@ python main.py --train
 ```
 
 The model should be stored in `DialogueDiscourseParsing/dev_model`.
+One can directly use the model trained **[here](https://drive.google.com/file/d/1NsxUjapp-iynWAwUxGmyk1EmI7YlRIZq/view?usp=sharing)**.
 
 Finally, we can inference for ShARC dataset to get the discourse relations. 
 
