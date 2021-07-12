@@ -74,6 +74,9 @@ One can directly use the model trained **[here](https://drive.google.com/file/d/
 Finally, we can inference for ShARC dataset to get the discourse relations. 
 
 ```bash
+python construct_tree_mapping.py
+python convert.py
+
 cd DialogueDiscourseParsing
 python main_.py
 ```
