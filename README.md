@@ -43,7 +43,7 @@ python fix_question.py
 ```
 
 ##### EDU segmentation
-
+The environment requirements are listed in **[here](https://www.dropbox.com/sh/tsr4ixfaosk2ecf/AACvXU6gbZfGLatPXDrzNcXCa?dl=0&preview=requirements.txt)**
 ```bash
 cd segedu
 python preprocess_discourse_segment.py
