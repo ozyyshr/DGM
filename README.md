@@ -108,7 +108,7 @@ python -u train_sharc.py \
 --learning_rate=5e-5 \
 --loss_entail_weight=3.0 \
 --dsave="out/{}" \
---model=decision \
+--model=decision_gcn \
 --early_stop=dev_0a_combined \
 --data=./data/ \
 --data_type=decision_electra-large-discriminator \
