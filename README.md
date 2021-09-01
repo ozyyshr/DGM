@@ -152,4 +152,6 @@ python -u qg.py \
 The final results are stored in `final_res.json`
 
 <h3>Acknowledgement</h3>
-Part of code is modified from the **[Discern](https://github.com/Yifan-Gao/Discern)** implementation.
+Part of code is modified from the [Discern][1] implementation.
+
+[1]: https://github.com/Yifan-Gao/Discern
